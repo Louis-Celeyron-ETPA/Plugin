@@ -18,6 +18,8 @@ public class TouchManager : MonoBehaviour
     {
         if(Input.touchCount<=0)
         {
+            SetITouchable(null);
+            _collider = null;
             return;
         }
 
@@ -31,7 +33,7 @@ public class TouchManager : MonoBehaviour
 
         if (Physics.Raycast(_mainCamera.transform.position, touchePosInWorld - _mainCamera.transform.position, out var info))
         {
-            _iTouchable = info.collider.GetComponent<ITouchable>();
+            SetITouchable( info.collider.GetComponent<ITouchable>());
             if(info.collider != _collider)
             {
                 _collider = info.collider;
@@ -40,6 +42,24 @@ public class TouchManager : MonoBehaviour
 
             _iTouchable?.OnTouchedStay();
         }
+        else
+        {
+            if(_iTouchable != null)
+            {
+                SetITouchable(null);
+                _collider = null;
+            }
+        }
         
+    }
+
+    private void SetITouchable(ITouchable newItouchable)
+    {
+        if(_iTouchable == newItouchable)
+        {
+            return;
+        }
+        _iTouchable?.OnTouchedUp();
+        _iTouchable = newItouchable;
     }
 }
