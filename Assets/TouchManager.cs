@@ -8,7 +8,7 @@ public class TouchManager : MonoBehaviour
     public bool debug;
     private Camera _mainCamera;
     private Collider _collider;
-    private ITouchable _itouchable;
+    private ITouchable _iTouchable;
     void Start()
     {
         _mainCamera = Camera.main;
@@ -16,24 +16,30 @@ public class TouchManager : MonoBehaviour
 
     void Update()
     {
+        if(Input.touchCount<=0)
+        {
+            return;
+        }
 
-        Camera maCamera = Camera.main;
-        var touchePos = new Vector3(Input.touches[0].position.x, Input.touches[0].position.y, maCamera.farClipPlane);
-        var touchePosInWorld = maCamera.ScreenToWorldPoint(touchePos);
+        var touchePos = new Vector3(Input.touches[0].position.x, Input.touches[0].position.y, _mainCamera.farClipPlane);
+        var touchePosInWorld = _mainCamera.ScreenToWorldPoint(touchePos);
         
         if(debug)
         {
-            Debug.DrawLine(maCamera.transform.position, touchePosInWorld, Color.red);
+            Debug.DrawLine(_mainCamera.transform.position, touchePosInWorld, Color.red);
         }
 
-        if (Physics.Raycast(maCamera.transform.position, touchePosInWorld - maCamera.transform.position, out var info))
+        if (Physics.Raycast(_mainCamera.transform.position, touchePosInWorld - _mainCamera.transform.position, out var info))
         {
+            _iTouchable = info.collider.GetComponent<ITouchable>();
             if(info.collider != _collider)
             {
-                _iTouchable = info.collider.GetComponent<ITouchable>();
-
+                _collider = info.collider;
+                _iTouchable.OnTouchedDown();
             }
 
+            _iTouchable?.OnTouchedStay();
         }
+        
     }
 }

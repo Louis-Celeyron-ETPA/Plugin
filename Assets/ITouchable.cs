@@ -4,8 +4,8 @@ using UnityEngine;
 
 public interface ITouchable 
 {
-    public virtual void OnTouchedDown() { }
-    public virtual void OnTouchedStay() { }
-    public virtual void OnTouchedUp() { }
+    public void OnTouchedDown() { }
+    public void OnTouchedStay() { }
+    public void OnTouchedUp() { }
 
 }
