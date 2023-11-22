@@ -4,6 +4,23 @@ using UnityEngine;
 
 public class Test : MonoBehaviour, ITouchable
 {
+    public void OnTouchedDown()
+    {
+        Debug.Log("Down");
+    }
+
+    public void OnTouchedStay()
+    {
+        Debug.Log("Stay");
+
+    }
+
+    public void OnTouchedUp()
+    {
+        Debug.Log("Up");
+
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,20 +32,4 @@ public class Test : MonoBehaviour, ITouchable
     {
         
     }
-
-    public void OnTouchedDown() 
-    {
-        Debug.Log("Down");
-    }
-    public void OnTouchedStay() 
-    { 
-        Debug.Log("Stay");
-    }
-    public void OnTouchedUp() 
-    {
-        Debug.Log("Up");
-
-    }
-
-
 }
